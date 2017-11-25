@@ -119,9 +119,6 @@ def gen_name(app, race_name, similar_names=False):
                 male_name += add_syllable(tuple_var, name_dict)
                 female_name += add_syllable(tuple_var, name_dict)
 
-    race_name = format_name(race_name)
-    male_name = format_name(male_name)
-    female_name = format_name(female_name)
     return [race_name, male_name, female_name]
 
 def format_name(name):
@@ -130,12 +127,14 @@ def format_name(name):
     name = name.title()
     name = name.replace("  ", " ")
     name = name.replace("'S", "'s")
-    if "Mc" in name:
-        split_name = name.split("Mc")
-        if len(split_name) == 2:
-            first_half = split_name[0]
-            last_half = split_name[1]
-            name = [first_half, last_half.title()].join("Mc")
+    for substring in ["Mc", "Mac"]:
+        if name.find(substring) != -1:
+            split_var = substring
+            split_name = name.split(split_var)
+            if len(split_name) == 2:
+                first_half = split_name[0]
+                last_half = split_name[1]
+                name = split_var.join([first_half, last_half.title()])
     return name
 
 
@@ -150,6 +149,9 @@ def return_html(app, race_name = None):
     for name in names:
         race_name, male_name, female_name = gen_name(app, name)
         gendered = race_name not in non_gendered_races
+        race_name = format_name(race_name)
+        male_name = format_name(male_name)
+        female_name = format_name(female_name)
         if gendered:
             html_string_to_return += "<tr><td>" + race_name + "</td><td> M: </td><td>" + male_name + "</td><td></tr>" + "<tr><td>" + race_name + "</td><td> F: </td><td>" + female_name + "</td></tr>"
         else:
