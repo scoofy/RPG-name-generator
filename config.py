@@ -73,5 +73,7 @@ race_vars={ # [text,  probablity]
             "tavern":   [["F1", 1.],
                         ["L1", 1.]],
 }
+race_name_spaces_dict = {"hillgiant": "hill giant"}
+
 
 filename_template = "names/{}{}.txt"

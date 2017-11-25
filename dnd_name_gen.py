@@ -8,8 +8,7 @@ non_gendered_races = config.non_gendered_races
 
 
 races = sorted(race_vars.keys())
-longest_race_name_len = len(max(races, key=len))
-
+race_names_with_spaces = sorted(config.race_name_spaces_dict.keys())
 
 
 def decision(probability):
@@ -33,7 +32,7 @@ def add_syllable(name_probablitity_tuple, name_dict):
     else:
         return ""
 
-def gen_name(app, race_name, similar_names=True):
+def gen_name(app, race_name, similar_names=False):
 
     race_tuple_list = race_vars.get(race_name)
 
@@ -120,10 +119,24 @@ def gen_name(app, race_name, similar_names=True):
                 male_name += add_syllable(tuple_var, name_dict)
                 female_name += add_syllable(tuple_var, name_dict)
 
-    male_name = male_name.replace("  ", " ")
-    female_name = female_name.replace("  ", " ")
+    race_name = format_name(race_name)
+    male_name = format_name(male_name)
+    female_name = format_name(female_name)
     return [race_name, male_name, female_name]
 
+def format_name(name):
+    if name in race_names_with_spaces:
+        name = config.race_name_spaces_dict.get(name)
+    name = name.title()
+    name = name.replace("  ", " ")
+    name = name.replace("'S", "'s")
+    if "Mc" in name:
+        split_name = name.split("Mc")
+        if len(split_name) == 2:
+            first_half = split_name[0]
+            last_half = split_name[1]
+            name = [first_half, last_half.title()].join("Mc")
+    return name
 
 
 def return_html(app, race_name = None):
@@ -136,12 +149,11 @@ def return_html(app, race_name = None):
         names = [race_name]
     for name in names:
         race_name, male_name, female_name = gen_name(app, name)
-        formated_race = "{message: >{longest_race_name_len}}".format(message=race_name.title(), longest_race_name_len=longest_race_name_len)
         gendered = race_name not in non_gendered_races
         if gendered:
-            html_string_to_return += "<tr><td>" + formated_race + "</td><td> M: </td><td>" + male_name.title() + "</td><td></tr>" + "<tr><td>" + formated_race + "</td><td> F: </td><td>" + female_name.title() + "</td></tr>"
+            html_string_to_return += "<tr><td>" + race_name + "</td><td> M: </td><td>" + male_name + "</td><td></tr>" + "<tr><td>" + race_name + "</td><td> F: </td><td>" + female_name + "</td></tr>"
         else:
-            html_string_to_return += "<tr></td><td>  " + formated_race + "</td><td>: </td><td>" + random.choice([male_name.title(), female_name.title()]).replace("'S","'s") + "</td></tr>"
+            html_string_to_return += "<tr></td><td>  " + race_name + "</td><td>: </td><td>" + random.choice([male_name, female_name]) + "</td></tr>"
     return html_string_to_return
 
 
