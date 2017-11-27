@@ -1,5 +1,6 @@
 
 non_gendered_races = ["tavern", "goblin", "orc", "hillgiant"]
+human_races = ["illuskan", "chondathan", "tethyrian", "damaran", "turami"]
 race_vars={ # [text,  probablity]
             "elf":      [["F1", 1.],
                         ["F2M", 1.],

@@ -2,24 +2,16 @@ import sys, random
 from pprint import pprint
 import config
 
-race_vars = config.race_vars
-filename_template = config.filename_template
-non_gendered_races = config.non_gendered_races
-races = config.races
-race_names_with_spaces = sorted(config.race_name_spaces_dict.keys())
-
-
 def decision(probability):
     return random.random() < probability
 
 def name_files_to_dict(app, race, filename_vars):
     name_dict = {}
     for filename_var in filename_vars:
-        file_text = app.open_resource(filename_template.format(race, filename_var), "r").read()
+        file_text = app.open_resource(config.filename_template.format(race, filename_var), "r").read()
         name_list = file_text.split("\n")
         name_dict[filename_var] = name_list
     return name_dict
-
 
 def add_syllable(name_probablitity_tuple, name_dict):
     return_name = decision(name_probablitity_tuple[1])
@@ -32,12 +24,12 @@ def add_syllable(name_probablitity_tuple, name_dict):
 
 def gen_name(app, race_name, similar_names=False):
 
-    race_tuple_list = race_vars.get(race_name)
+    race_tuple_list = config.race_vars.get(race_name)
     if not race_tuple_list:
         return
 
     filename_vars = [x[0] for x in race_tuple_list]
-    filenames = [filename_template.format(race_name, x) for x in filename_vars]
+    filenames = [config.filename_template.format(race_name, x) for x in filename_vars]
 
     name_dict = name_files_to_dict(app, race_name, filename_vars)
 
@@ -51,7 +43,7 @@ def gen_name(app, race_name, similar_names=False):
     trailing_orc_L2_space = False
     parentheses = False
     gendered = True
-    if race_name in non_gendered_races:
+    if race_name in config.non_gendered_races:
         gendered = False
     if race_name in ["tavern"]:
         male_name += "the "
@@ -124,6 +116,8 @@ def gen_name(app, race_name, similar_names=False):
 def format_name(name):
     if name in race_names_with_spaces:
         name = config.race_name_spaces_dict.get(name)
+    if name in config.human_races:
+        name = "human (" + name + ")"
     name = name.title()
     name = name.replace("  ", " ")
     name = name.replace("'S", "'s")
@@ -137,22 +131,28 @@ def format_name(name):
                 name = split_var.join([first_half, last_half.title()])
     return name
 
-
 def return_name_list(app, race_name=None, similar_names=False):
     if not race_name:
-        names = [name for name in sorted(race_vars.keys())]
+        names = [name for name in sorted(config.race_vars.keys())]
     else:
         names = [race_name]
-    name_list_to_return = []
+
+    formatted_name_list = []
     for name in names:
         name_list = gen_name(app, name, similar_names)
         if not name_list:
             return
         race_name, male_name, female_name = name_list
-        gendered = race_name not in non_gendered_races
         race_name = format_name(race_name)
         male_name = format_name(male_name)
         female_name = format_name(female_name)
+        formatted_name_list.append([race_name, male_name, female_name])
+    formatted_name_list = sorted(formatted_name_list)
+
+    name_list_to_return = []
+    for name_list in formatted_name_list:
+        race_name, male_name, female_name = name_list
+        gendered = formatted_race_name_dict_reverse[race_name] not in config.non_gendered_races
         randomness = random.choice([True, False])
         these_names = []
         if gendered:
@@ -169,6 +169,9 @@ def return_name_list(app, race_name=None, similar_names=False):
     return name_list_to_return
 
 
+race_names_with_spaces = config.race_name_spaces_dict.keys()
+formatted_race_name_dict = {name: format_name(name) for name in config.races}
+formatted_race_name_dict_reverse = {format_name(name): name for name in config.races}
 
 
 
