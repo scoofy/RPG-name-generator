@@ -1,6 +1,11 @@
+body {
+    text-align: center;
+}
 h1 {
     color: red;
 }
-td {
-    align: right;
+span {
+}
+.race_name {
+    font-weight: bold;
 }

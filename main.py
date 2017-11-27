@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "<table alight='Right'>" + dnd_name_gen.return_html(app) + "</table>"
+    name_list = dnd_name_gen.return_name_list(app)
+    return render_template("frontpage.html", name_list=name_list, some_shit="some_shit")
 
 @app.route("/iama/<dndrace>")
 def race(dndrace):

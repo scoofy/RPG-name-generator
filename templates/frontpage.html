@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta name= "viewport" content= "width = device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    {% for item_row in name_list %}
+        {% if item_row|length < 3 %}
+            <span class="race_name">{{ item_row[0][0] }}</span><br>
+            <span class="name">{{ item_row[1][0] }}</span><br>
+        {% else %}
+            {% for items in item_row %}
+                {% if items|length < 2 %}
+                    <span class="race_name">{{ items[0] }}</span><br>
+                {% else %}
+                    <span class="gender">{{ items[0] }}:</span> <span class="name">{{ items[1] }}</span><br>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <br>
+    {% endfor %}
+</body>
+</html>

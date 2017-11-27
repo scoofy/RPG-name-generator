@@ -138,25 +138,32 @@ def format_name(name):
     return name
 
 
-def return_html(app, race_name = None):
-    html_string_to_return = ""
-    #html_string_to_return += '''<!doctype html><head><link rel="stylesheet" type="text/css" href="static/style.css" /></head>'''
-
+def return_name_list(app, race_name = None):
     if not race_name:
         names = [name for name in sorted(race_vars.keys())]
     else:
         names = [race_name]
+    name_list_to_return = []
     for name in names:
         race_name, male_name, female_name = gen_name(app, name)
         gendered = race_name not in non_gendered_races
         race_name = format_name(race_name)
         male_name = format_name(male_name)
         female_name = format_name(female_name)
+        randomness = random.choice([True, False])
+        these_names = []
         if gendered:
-            html_string_to_return += "<tr><td>" + race_name + "</td><td> M: </td><td>" + male_name + "</td><td></tr>" + "<tr><td>" + race_name + "</td><td> F: </td><td>" + female_name + "</td></tr>"
+            if randomness:
+                these_names = [[race_name], ["Male", male_name], ["Female", female_name]]
+            else:
+                these_names = [[race_name], ["Female", female_name], ["Male", male_name]]
         else:
-            html_string_to_return += "<tr></td><td>  " + race_name + "</td><td>: </td><td>" + random.choice([male_name, female_name]) + "</td></tr>"
-    return html_string_to_return
+            if randomness:
+                these_names = [[race_name], [male_name]]
+            else:
+                these_names = [[race_name], [female_name]]
+        name_list_to_return.append(these_names)
+    return name_list_to_return
 
 
 
