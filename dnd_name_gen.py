@@ -5,9 +5,7 @@ import config
 race_vars = config.race_vars
 filename_template = config.filename_template
 non_gendered_races = config.non_gendered_races
-
-
-races = sorted(race_vars.keys())
+races = config.races
 race_names_with_spaces = sorted(config.race_name_spaces_dict.keys())
 
 
@@ -35,6 +33,8 @@ def add_syllable(name_probablitity_tuple, name_dict):
 def gen_name(app, race_name, similar_names=False):
 
     race_tuple_list = race_vars.get(race_name)
+    if not race_tuple_list:
+        return
 
     filename_vars = [x[0] for x in race_tuple_list]
     filenames = [filename_template.format(race_name, x) for x in filename_vars]
@@ -138,14 +138,17 @@ def format_name(name):
     return name
 
 
-def return_name_list(app, race_name = None):
+def return_name_list(app, race_name=None, similar_names=False):
     if not race_name:
         names = [name for name in sorted(race_vars.keys())]
     else:
         names = [race_name]
     name_list_to_return = []
     for name in names:
-        race_name, male_name, female_name = gen_name(app, name)
+        name_list = gen_name(app, name, similar_names)
+        if not name_list:
+            return
+        race_name, male_name, female_name = name_list
         gendered = race_name not in non_gendered_races
         race_name = format_name(race_name)
         male_name = format_name(male_name)

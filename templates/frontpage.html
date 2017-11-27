@@ -7,12 +7,12 @@
 <body>
     {% for item_row in name_list %}
         {% if item_row|length < 3 %}
-            <span class="race_name">{{ item_row[0][0] }}</span><br>
+            <a href="/{{ item_row[0][0]|replace(" ","") }}"><span class="race_name">{{ item_row[0][0] }}</span></a><br>
             <span class="name">{{ item_row[1][0] }}</span><br>
         {% else %}
             {% for items in item_row %}
                 {% if items|length < 2 %}
-                    <span class="race_name">{{ items[0] }}</span><br>
+                    <a href="/{{ item_row[0][0]|replace(" ","") }}"><span class="race_name">{{ items[0] }}</span></a><br>
                 {% else %}
                     <span class="gender">{{ items[0] }}:</span> <span class="name">{{ items[1] }}</span><br>
                 {% endif %}
@@ -20,5 +20,9 @@
         {% endif %}
         <br>
     {% endfor %}
+    {% for i in range(5) %}
+        <br>
+    {% endfor %}
+    <a href="/random">random</a>
 </body>
 </html>

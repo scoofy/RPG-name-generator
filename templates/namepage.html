@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <meta name= "viewport" content= "width = device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <a href="/{{ race_name }}"><span class="race_name">{{ name_list[0] }}</span></a><br><br>
+    {% if name_list[1][0] %}
+        <span class="gender">{{ name_list[1][0] }}</span><br><br>
+    {% endif %}
+    {% for name in name_list[1][1] %}
+        <span class="name">{{ name }}</span><br>
+    {% endfor %}
+    {% if name_list[2] %}
+        <br>
+        {% if name_list[1][0] %}
+            <span class="gender">{{ name_list[2][0] }}</span><br><br>
+        {% endif %}
+        {% for name in name_list[1][1] %}
+            <span class="name">{{ name }}</span><br>
+        {% endfor %}
+    {% else %}
+        {% if random_race %}
+            {% for i in range(10) %}
+                <br>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    {% for i in range(5) %}
+        <br>
+    {% endfor %}
+    <a href="/"><span>back</span></a>
+    {% for i in range(2) %}
+        <br>
+    {% endfor %}
+    <a href="/random"><span>random{% if random_race %} again{% endif %}</span></a>
+</body>
+</html>

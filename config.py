@@ -75,5 +75,6 @@ race_vars={ # [text,  probablity]
 }
 race_name_spaces_dict = {"hillgiant": "hill giant"}
 
+races = sorted(race_vars.keys())
 
 filename_template = "names/{}{}.txt"
