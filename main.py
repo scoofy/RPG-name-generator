@@ -12,11 +12,18 @@ def index():
 
 @app.route("/<race_name>")
 def race(race_name):
-    race_name = race_name.lower()
-
     random_race = race_name == "random"
-    if random_race:
-        race_name = random.choice(config.races)
+    if race_name.lower() not in config.races:
+        pprint(race_name)
+        pprint([x.replace(" ","") for x in config.formatted_race_name_dict_reverse.keys()])
+        if random_race:
+            race_name = random.choice(config.races)
+        elif race_name in [x.replace(" ","") for x in config.formatted_race_name_dict_reverse.keys()]:
+            for key, value in config.formatted_race_name_dict_reverse.items():
+                if race_name == key.replace(" ",""):
+                    race_name = value
+                    break
+    race_name = race_name.lower()
     name_list = dnd_name_gen.return_name_list(app, race_name=race_name)
     if not name_list:
         return render_template("errorpage.html", race_name=race_name)

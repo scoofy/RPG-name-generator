@@ -172,7 +172,8 @@ def return_name_list(app, race_name=None, similar_names=False):
 race_names_with_spaces = config.race_name_spaces_dict.keys()
 formatted_race_name_dict = {name: format_name(name) for name in config.races}
 formatted_race_name_dict_reverse = {format_name(name): name for name in config.races}
-
+config.formatted_race_name_dict = formatted_race_name_dict
+config.formatted_race_name_dict_reverse = formatted_race_name_dict_reverse
 
 
 

@@ -7,7 +7,7 @@
 <body>
     {% for item_row in name_list %}
         {% if item_row|length < 3 %}
-            <a href="/{{ item_row[0][0]|replace(" ","") }}"><span class="race_name">{{ item_row[0][0] }}</span></a><br>
+            <a href="/{{ item_row[0][0]|replace(' ','') }}"><span class="race_name">{{ item_row[0][0] }}</span></a><br>
             <span class="name">{{ item_row[1][0] }}</span><br>
         {% else %}
             {% for items in item_row %}
