@@ -14,8 +14,6 @@ def index():
 def race(race_name):
     random_race = race_name == "random"
     if race_name.lower() not in config.races:
-        pprint(race_name)
-        pprint([x.replace(" ","") for x in config.formatted_race_name_dict_reverse.keys()])
         if random_race:
             race_name = random.choice(config.races)
         elif race_name in [x.replace(" ","") for x in config.formatted_race_name_dict_reverse.keys()]:
@@ -61,9 +59,9 @@ def race(race_name):
             primary_list_of_names = ["Female names:", female_names]
             secondary_list_of_names = ["Male names:", male_names]
 
-    name_list = [formatted_race_name, primary_list_of_names, secondary_list_of_names]
+    name_list = [[formatted_race_name, race_name], primary_list_of_names, secondary_list_of_names]
     pprint(name_list)
-    return render_template("namepage.html", name_list=name_list, race_name=race_name, random_race=random_race)
+    return render_template("namepage.html", name_list=name_list, random_race=random_race)
 
 
 

@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <a href="/{{ race_name }}"><span class="race_name">{{ name_list[0] }}</span></a><br><br>
+    <a href="/{{ name_list[0][1] }}"><span class="race_name">{{ name_list[0][0] }}</span></a><br><br>
     {% if name_list[1][0] %}
         <span class="gender">{{ name_list[1][0] }}</span><br><br>
     {% endif %}
@@ -17,7 +17,7 @@
         {% if name_list[1][0] %}
             <span class="gender">{{ name_list[2][0] }}</span><br><br>
         {% endif %}
-        {% for name in name_list[1][1] %}
+        {% for name in name_list[2][1] %}
             <span class="name">{{ name }}</span><br>
         {% endfor %}
     {% else %}

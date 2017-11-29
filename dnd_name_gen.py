@@ -114,11 +114,16 @@ def gen_name(app, race_name, similar_names=False):
     return [race_name, male_name, female_name]
 
 def format_name(name):
+    if name in config.races:
+        race_name = name
+    else:
+        race_name = None
     if name in race_names_with_spaces:
         name = config.race_name_spaces_dict.get(name)
-    if name in config.human_races:
-        name = "human (" + name + ")"
     name = name.title()
+    if race_name:
+        if race_name in config.human_races:
+            name = "Human (" + name.title() + ")"
     name = name.replace("  ", " ")
     name = name.replace("'S", "'s")
     for substring in ["Mc", "Mac"]:
@@ -143,28 +148,29 @@ def return_name_list(app, race_name=None, similar_names=False):
         if not name_list:
             return
         race_name, male_name, female_name = name_list
-        race_name = format_name(race_name)
+        formatted_race_name = format_name(race_name)
         male_name = format_name(male_name)
         female_name = format_name(female_name)
-        formatted_name_list.append([race_name, male_name, female_name])
+        formatted_name_list.append([[formatted_race_name, race_name], male_name, female_name])
     formatted_name_list = sorted(formatted_name_list)
 
     name_list_to_return = []
     for name_list in formatted_name_list:
-        race_name, male_name, female_name = name_list
-        gendered = formatted_race_name_dict_reverse[race_name] not in config.non_gendered_races
+        race_name_tuple, male_name, female_name = name_list
+        formatted_race_name, race_name = race_name_tuple
+        gendered = race_name not in config.non_gendered_races
         randomness = random.choice([True, False])
         these_names = []
         if gendered:
             if randomness:
-                these_names = [[race_name], ["Male", male_name], ["Female", female_name]]
+                these_names = [[formatted_race_name, race_name], ["Male", male_name], ["Female", female_name]]
             else:
-                these_names = [[race_name], ["Female", female_name], ["Male", male_name]]
+                these_names = [[formatted_race_name, race_name], ["Female", female_name], ["Male", male_name]]
         else:
             if randomness:
-                these_names = [[race_name], [male_name]]
+                these_names = [[formatted_race_name, race_name], [male_name]]
             else:
-                these_names = [[race_name], [female_name]]
+                these_names = [[formatted_race_name, race_name], [female_name]]
         name_list_to_return.append(these_names)
     return name_list_to_return
 
