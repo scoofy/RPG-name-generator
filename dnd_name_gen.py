@@ -1,4 +1,4 @@
-import sys, random
+import sys, random, string
 from pprint import pprint
 import config
 
@@ -120,20 +120,30 @@ def format_name(name):
         race_name = None
     if name in race_names_with_spaces:
         name = config.race_name_spaces_dict.get(name)
-    name = name.title()
+    name = string.capwords(name)
     if race_name:
         if race_name in config.human_races:
-            name = "Human (" + name.title() + ")"
-    name = name.replace("  ", " ")
-    name = name.replace("'S", "'s")
-    for substring in ["Mc", "Mac"]:
+            name = "Human (" + string.capwords(name) + ")"
+    else:
+        if "(" in name:
+            name_split = name.split("(")
+            if len(name_split) == 2:
+                first, last = name_split
+                name = "(".join([first, string.capwords(last)])
+
+
+    name = " ".join(name.split())
+    name = name.replace("' ", " ")
+    if name.endswith("'"):
+        name = name[:-1]
+    for substring in config.surname_affixes:
         if name.find(substring) != -1:
             split_var = substring
             split_name = name.split(split_var)
             if len(split_name) == 2:
                 first_half = split_name[0]
                 last_half = split_name[1]
-                name = split_var.join([first_half, last_half.title()])
+                name = split_var.join([first_half, string.capwords(last_half)])
     return name
 
 def return_name_list(app, race_name=None, similar_names=False):

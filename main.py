@@ -60,7 +60,6 @@ def race(race_name):
             secondary_list_of_names = ["Male names:", male_names]
 
     name_list = [[formatted_race_name, race_name], primary_list_of_names, secondary_list_of_names]
-    pprint(name_list)
     return render_template("namepage.html", name_list=name_list, random_race=random_race)
 
 

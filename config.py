@@ -1,3 +1,4 @@
+filename_template = "names/{}{}.txt"
 
 non_gendered_races = ["tavern", "goblin", "orc", "hillgiant"]
 human_races = ["illuskan", "chondathan", "tethyrian", "damaran", "turami"]
@@ -78,4 +79,5 @@ race_name_spaces_dict = {"hillgiant": "hill giant"}
 
 races = sorted(race_vars.keys())
 
-filename_template = "names/{}{}.txt"
+surname_affix_list = ["Mac", "Mc", "Van", "Von", "O'"]
+surname_affixes = [" {}".format(x) for x in surname_affix_list]
