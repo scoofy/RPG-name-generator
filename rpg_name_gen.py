@@ -5,6 +5,9 @@ import config
 def decision(probability):
     return random.random() < probability
 
+def first_char_lower(s):
+    return s[:1].lower() + s[1:] if s else ''
+
 def name_files_to_dict(app, race, filename_vars):
     name_dict = {}
     for filename_var in filename_vars:
@@ -130,7 +133,13 @@ def format_name(name):
             if len(name_split) == 2:
                 first, last = name_split
                 name = "(".join([first, string.capwords(last)])
-
+    if " The " in name:
+        name_split = name.split(" The ")
+        if len(name_split) == 2:
+            first, last = name_split
+            last = first_char_lower(last)
+            print(last)
+            name = " the ".join([first, last])
 
     name = " ".join(name.split())
     name = name.replace("' ", " ")
