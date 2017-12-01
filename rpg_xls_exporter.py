@@ -1,5 +1,7 @@
 execute = True
-test = True
+test = False
+if execute and not test:
+    print("Start!")
 
 import xlrd, string, sys, os
 from pprint import pprint
@@ -12,7 +14,7 @@ if test:
     xls_path = "/Users/mschoolfield/Documents/d&d/Matts Name Generator dissection .xlsx"
 else:
     xls_path = filedialog.askopenfilename()
-pprint(xls_path)
+#pprint(xls_path)
 
 filename_text_tuple_list = []
 
@@ -48,22 +50,15 @@ filename_dict = {
 }
 filename_dict_keys = filename_dict.keys()
 
-book = xlrd.open_workbook(xls_path)
-# print("The number of worksheets is {0}".format(book.nsheets))
-# print("Worksheet name(s): {0}".format(book.sheet_names()))
-# sh = book.sheet_by_index(0)
-# print("{0} {1} {2}".format(sh.name, sh.nrows, sh.ncols))
-# print("Cell D30 is {0}".format(sh.cell_value(rowx=29, colx=3)))
-# for rx in range(sh.nrows):
-#     print(sh.row(rx))
-
 if test:
     export_path_suffix = "/testnames/here"
 else:
     export_path_suffix = "/names/here"
 export_path = current_path + export_path_suffix
 str_file_path_list = export_path.split("/")
-print(str_file_path_list)
+# print(str_file_path_list)
+
+book = xlrd.open_workbook(xls_path)
 text_row_start = None
 for sheet in book.sheets():
     #pprint(sheet.name)
@@ -107,6 +102,8 @@ for sheet in book.sheets():
                 except:
                     '''print(text)'''
             if col_str:
+                if col_str.endswith("\n"):
+                    col_str = col_str[:-1]
                 str_file_path_list.pop(-1)
                 sheet_name = sheet.name
                 if sheet_name in sheet_names_replace_dict_keys:
@@ -124,7 +121,8 @@ if execute:
         file = open(path, "w")
         file.write(text)
         file.close()
-
+    if not test:
+        print("Finished!")
 
 
 

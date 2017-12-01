@@ -29,7 +29,7 @@ race_vars={ # [text,  probablity]
                         ["L3",  1.]],
             "goblin":   [["F1", 1.],
                         ["F2",  0.75],
-                        ["L1",  0.1]],
+                        ["F3",  0.1]],
             "gnome":    [["F1", 1.],
                         ["F2M",0.25],
                         ["F2F",0.25],
@@ -73,7 +73,7 @@ race_vars={ # [text,  probablity]
                         ["L2", 1.],
                         ["L3", 0.95]],
             "tavern":   [["F1", 1.],
-                        ["L1", 1.]],
+                        ["F2", 1.]],
 }
 race_name_spaces_dict = {"hillgiant": "hill giant"}
 
