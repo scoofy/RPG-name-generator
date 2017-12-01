@@ -138,9 +138,13 @@ def format_name(name):
         if len(name_split) == 2:
             first, last = name_split
             last = first_char_lower(last)
-            print(last)
             name = " the ".join([first, last])
-
+    shorts = ["a", "an", "the", "at", "by", "for", "in", "of", "on", "to", "up", "and", "as", "but", "or", "and" "nor"]
+    shorts_with_spaces = [" " + x + " " for x in shorts]
+    if any(word.title() in name for word in shorts_with_spaces):
+        for space_word_space in shorts_with_spaces:
+            if space_word_space.title() in name:
+                name = name.replace(space_word_space.title(), space_word_space)
     name = " ".join(name.split())
     name = name.replace("' ", " ")
     if name.endswith("'"):
