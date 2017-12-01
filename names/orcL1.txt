@@ -1,6 +1,6 @@
 Black
 Blood
-Breaker
+Breaker 
 Brood
 Brother
 Cousin
@@ -11,7 +11,7 @@ Dirt
 Fang
 Father
 Filth
-Hurts
+Hurts 
 Kill
 King
 Lash
@@ -28,7 +28,7 @@ Shadow
 Sister
 Slash
 Smash
-Smashes
+Smashes 
 Snake
 Son
 Soot
@@ -37,7 +37,7 @@ Stomp
 Pierce
 Throat
 Web
-Who
+Who 
 Cripple
 Poison
 Bile
