@@ -108,12 +108,14 @@ for sheet in book.sheets():
                 sheet_name = sheet.name
                 if sheet_name in sheet_names_replace_dict_keys:
                     sheet_name = sheet_names_replace_dict.get(sheet_name)
-                str_file_path_list.append(sheet_name.lower()+str(filename_suffix)+".txt")
+                full_sheet_name = sheet_name.lower()+str(filename_suffix)+".txt"
+                str_file_path_list.append(full_sheet_name)
                 str_file_path = "/".join(str_file_path_list)
                 name_text_tuple = [str_file_path, col_str]
                 filename_text_tuple_list.append(name_text_tuple)
                 #print(str_file_path)
                 #pprint(col_str)
+                print(full_sheet_name)
 
 if execute:
     for name_text_tuple in filename_text_tuple_list:
