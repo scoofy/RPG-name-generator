@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-import dnd_name_gen, config
+import rpg_name_gen, config
 import random
 from pprint import pprint
 
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    name_list = dnd_name_gen.return_name_list(app)
+    name_list = rpg_name_gen.return_name_list(app)
     return render_template("frontpage.html", name_list=name_list)
 
 @app.route("/<race_name>")
@@ -22,13 +22,13 @@ def race(race_name):
                     race_name = value
                     break
     race_name = race_name.lower()
-    name_list = dnd_name_gen.return_name_list(app, race_name=race_name)
+    name_list = rpg_name_gen.return_name_list(app, race_name=race_name)
     if not name_list:
         return render_template("errorpage.html", race_name=race_name)
     list_of_name_lists =[]
     list_of_name_lists.append(name_list[0])
     for i in range(4):
-        name_list = dnd_name_gen.return_name_list(app, race_name=race_name)
+        name_list = rpg_name_gen.return_name_list(app, race_name=race_name)
         list_of_name_lists.append(name_list[0])
     formatted_race_name = [name_list[0] for name_list in list_of_name_lists][0][0]
 
