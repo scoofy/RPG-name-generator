@@ -53,11 +53,11 @@ def race(race_name):
 
         first = random.choice(["males first", "females first"])
         if first == "males first":
-            primary_list_of_names = ["Male names:", male_names]
-            secondary_list_of_names = ["Female names:", female_names]
+            primary_list_of_names = ["Male", male_names]
+            secondary_list_of_names = ["Female", female_names]
         elif first == "females first":
-            primary_list_of_names = ["Female names:", female_names]
-            secondary_list_of_names = ["Male names:", male_names]
+            primary_list_of_names = ["Female", female_names]
+            secondary_list_of_names = ["Male", male_names]
 
     name_list = [[formatted_race_name, race_name], primary_list_of_names, secondary_list_of_names]
     return render_template("namepage.html", name_list=name_list, random_race=random_race)

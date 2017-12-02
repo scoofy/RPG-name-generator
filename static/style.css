@@ -9,3 +9,9 @@ span {
 .race_name {
     font-weight: bold;
 }
+.male {
+    background-color: #F8FAFF;
+}
+.female {
+    background-color: #FFF8FF;
+}

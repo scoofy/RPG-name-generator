@@ -7,18 +7,20 @@
 <body>
     <a href="/{{ name_list[0][1] }}"><span class="race_name">{{ name_list[0][0] }}</span></a><br><br>
     {% if name_list[1][0] %}
-        <span class="gender">{{ name_list[1][0] }}</span><br><br>
+        <span class="gender">{{ name_list[1][0] }} names:</span>
+        <br><br>
     {% endif %}
     {% for name in name_list[1][1] %}
-        <span class="name">{{ name }}</span><br>
+        <span class={% if name_list[1][0] == "Male" %}"male"{% elif name_list[1][0] == "Female" %}"female"{% else %}{% endif %}>{{ name }}</span><br>
     {% endfor %}
     {% if name_list[2] %}
         <br>
         {% if name_list[1][0] %}
-            <span class="gender">{{ name_list[2][0] }}</span><br><br>
+            <span class="gender">{{ name_list[2][0] }} names:</span>
+            <br><br>
         {% endif %}
         {% for name in name_list[2][1] %}
-            <span class="name">{{ name }}</span><br>
+            <span class={% if name_list[2][0] == "Male" %}"male"{% elif name_list[2][0] == "Female" %}"female"{% else %}{% endif %}>{{ name }}</span><br>
         {% endfor %}
     {% else %}
         {% if random_race %}

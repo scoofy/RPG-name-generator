@@ -33,6 +33,7 @@ sheet_name_list = [
             "Turami",
             "Dwarf",
             "Taverns",
+            "Tiefling",
 ]
 sheet_names_replace_dict = {"Taverns":"Tavern",
                             "Hill Giant":"Hillgiant",
