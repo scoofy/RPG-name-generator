@@ -16,14 +16,12 @@ def race(race_name):
     if race_name.lower() not in config.races:
         if random_race:
             race_name = random.choice(config.races)
-    race_name = race_name.lower()
-    name_list = rpg_name_gen.return_name_list(race_name=race_name)
-    if not name_list:
-        return render_template("errorpage.html", race_name=race_name)
+
     list_of_name_lists =[]
-    list_of_name_lists.append(name_list[0])
-    for i in range(4):
-        name_list = rpg_name_gen.return_name_list(app, race_name=race_name)
+    for i in range(5):
+        name_list = rpg_name_gen.return_name_list(race_name=race_name.lower())
+        if not name_list:
+            return render_template("errorpage.html", race_name=race_name)
         list_of_name_lists.append(name_list[0])
     formatted_race_name = [name_list[0] for name_list in list_of_name_lists][0][0]
 

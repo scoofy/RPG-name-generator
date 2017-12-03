@@ -42,6 +42,7 @@ def format_name(name):
 
     if not race_name:
         # check for triple letters:
+        name = name.lower()
         name = check_for_triples(name)
 
     name = string.capwords(name)
@@ -117,6 +118,13 @@ def return_name_list(race_name=None, similar_names=False):
 
 
 race_names_with_spaces = config.race_name_spaces_dict.keys()
+
+
+
+
+
+
+
 
 
 
