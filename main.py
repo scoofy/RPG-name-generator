@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    name_list = rpg_name_gen.return_name_list(app)
+    name_list = rpg_name_gen.return_name_list()
     return render_template("frontpage.html", name_list=name_list)
 
 @app.route("/<race_name>")
@@ -16,13 +16,8 @@ def race(race_name):
     if race_name.lower() not in config.races:
         if random_race:
             race_name = random.choice(config.races)
-        elif race_name in [x.replace(" ","") for x in config.formatted_race_name_dict_reverse.keys()]:
-            for key, value in config.formatted_race_name_dict_reverse.items():
-                if race_name == key.replace(" ",""):
-                    race_name = value
-                    break
     race_name = race_name.lower()
-    name_list = rpg_name_gen.return_name_list(app, race_name=race_name)
+    name_list = rpg_name_gen.return_name_list(race_name=race_name)
     if not name_list:
         return render_template("errorpage.html", race_name=race_name)
     list_of_name_lists =[]

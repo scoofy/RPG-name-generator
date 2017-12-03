@@ -3,8 +3,8 @@ from pprint import pprint
 import config
 import create_names
 
-def gen_name(app, race_name, similar_names=False):
-    triple = create_names.gen_race_name(race_name)
+def gen_name(race_name, similar_names=False):
+    triple = create_names.gen_race_name(race_name, similar_names)
     if triple: # [race_name, male_name, female_name]
         return triple
 
@@ -75,7 +75,7 @@ def format_name(name):
                 name = split_var.join([first_half, string.capwords(last_half)])
     return name
 
-def return_name_list(app, race_name=None, similar_names=False):
+def return_name_list(race_name=None, similar_names=False):
     if not race_name:
         names = [name for name in sorted(config.race_vars.keys())]
     else:
@@ -83,7 +83,7 @@ def return_name_list(app, race_name=None, similar_names=False):
 
     formatted_name_list = []
     for name in names:
-        name_list = gen_name(app, name, similar_names)
+        name_list = gen_name(name, similar_names)
         if not name_list:
             continue
         race_name, male_name, female_name = name_list
@@ -117,19 +117,6 @@ def return_name_list(app, race_name=None, similar_names=False):
 
 
 race_names_with_spaces = config.race_name_spaces_dict.keys()
-formatted_race_name_dict = {name: format_name(name) for name in config.races}
-formatted_race_name_dict_reverse = {format_name(name): name for name in config.races}
-config.formatted_race_name_dict = formatted_race_name_dict
-config.formatted_race_name_dict_reverse = formatted_race_name_dict_reverse
-
-
-
-
-
-
-
-
-
 
 
 
