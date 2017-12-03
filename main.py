@@ -18,7 +18,10 @@ def race(race_name):
             race_name = random.choice(config.races)
 
     list_of_name_lists =[]
-    for i in range(5):
+    number_of_names = 5
+    if race_name in config.non_gendered_races:
+        number_of_names = 10
+    for i in range(number_of_names):
         name_list = rpg_name_gen.return_name_list(race_name=race_name.lower())
         if not name_list:
             return render_template("errorpage.html", race_name=race_name)

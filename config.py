@@ -11,9 +11,6 @@ race_vars={ # [text,  probablity]
                         ["F2F", 1.],
                         ["L2",  1.],
                         ["L3",  1.],
-                        ["T234",0.], #2
-                        ["T234",0.],
-                        ["T234",0.], #4
                         ["T5",  1.],
                         ["T6",  1.]],
             "halfling": [["F1", 1.],
@@ -87,6 +84,13 @@ races = sorted(race_vars.keys())
 
 surname_affix_list = ["Mac", "Mc", "Van", "Von", "O'"]
 surname_affixes = [" {}".format(x) for x in surname_affix_list]
+
+
+
+
+
+
+
 
 
 

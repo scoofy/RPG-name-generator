@@ -66,14 +66,15 @@ def format_name(name):
     name = name.replace("' ", " ")
     if name.endswith("'"):
         name = name[:-1]
-    for substring in config.surname_affixes:
-        if name.find(substring) != -1:
-            split_var = substring
-            split_name = name.split(split_var)
-            if len(split_name) == 2:
-                first_half = split_name[0]
-                last_half = split_name[1]
-                name = split_var.join([first_half, string.capwords(last_half)])
+    if not name.startswith("The "): # Taverns
+        for substring in config.surname_affixes:
+            if name.split(" ")[-1].startswith(substring) != -1: # Last names only
+                split_var = substring
+                split_name = name.split(split_var)
+                if len(split_name) == 2:
+                    first_half = split_name[0]
+                    last_half = split_name[1]
+                    name = split_var.join([first_half, string.capwords(last_half)])
     return name
 
 def return_name_list(race_name=None, similar_names=False):

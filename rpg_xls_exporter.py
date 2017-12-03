@@ -59,6 +59,17 @@ export_path = current_path + export_path_suffix
 str_file_path_list = export_path.split("/")
 # print(str_file_path_list)
 
+# remove old files:
+remove_in_this_folder_path = "/".join(str_file_path_list[:-1])
+for the_file in os.listdir(remove_in_this_folder_path):
+    if the_file.endswith(".py") and not the_file.startswith("__"):
+        file_path = os.path.join(remove_in_this_folder_path, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print(e)
+
 book = xlrd.open_workbook(xls_path)
 text_row_start = None
 for sheet in book.sheets():
@@ -103,7 +114,7 @@ for sheet in book.sheets():
                         col_str += text + "\n"
                 except:
                     '''print(text)'''
-            if col_str:
+            if col_str.replace(" ","").replace("\n",""):
                 if col_str.endswith("\n"):
                     col_str = col_str[:-1]
                 suffix = "'''"
