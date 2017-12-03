@@ -1,7 +1,10 @@
-filename_template = "names/{}{}.txt"
+import importlib, sys
+from pprint import pprint
+
+import_template = "names.{}{}"
 
 non_gendered_races = ["tavern", "goblin", "orc", "hillgiant"]
-human_races = ["illuskan", "chondathan", "tethyrian", "damaran", "turami"]
+human_races = ["human", "illuskan", "chondathan", "tethyrian", "damaran", "turami"]
 race_vars={ # [text,  probablity]
             "elf":      [["F1", 1.],
                         ["F2M", 1.],
@@ -77,9 +80,38 @@ race_vars={ # [text,  probablity]
                         ["F2F", 1.],
                         ["L2", 1.]],
 }
+
 race_name_spaces_dict = {"hillgiant": "hill giant"}
 
 races = sorted(race_vars.keys())
 
 surname_affix_list = ["Mac", "Mc", "Van", "Von", "O'"]
 surname_affixes = [" {}".format(x) for x in surname_affix_list]
+
+
+
+
+
+
+
+
+
+
+
+
+file_text_dict = {}
+def name_files_to_dict():
+      for race_name in race_vars.keys():
+            race_tuple_list = race_vars.get(race_name)
+            filename_vars = [x[0] for x in race_tuple_list]
+            # filenames = [filename_template.format(race_name, x) for x in filename_vars]
+            for filename_var in filename_vars:
+                  try:
+                        name_py_file = importlib.import_module(import_template.format(race_name, filename_var))
+                        syllable_text_list = name_py_file.text.split("\n")
+                        syllable_text_list = list(filter(None, syllable_text_list))
+                        if syllable_text_list:
+                              file_text_dict[race_name + filename_var] = syllable_text_list
+                  except:
+                        pass
+name_files_to_dict()

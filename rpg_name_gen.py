@@ -4,19 +4,33 @@ import config
 import create_names
 
 def gen_name(app, race_name, similar_names=False):
+    triple = create_names.gen_race_name(race_name)
+    if triple: # [race_name, male_name, female_name]
+        return triple
 
-    race_tuple_list = config.race_vars.get(race_name)
-    if not race_tuple_list:
-        return
-
-    filename_vars = [x[0] for x in race_tuple_list]
-    filenames = [config.filename_template.format(race_name, x) for x in filename_vars]
-
-    triple = create_names.gen_race_name(app, race_name, race_tuple_list, filename_vars, similar_names)
-
-    if triple:
-        race_name, male_name, female_name = triple
-        return [race_name, male_name, female_name]
+def check_for_triples(string):
+    single = None
+    double = None
+    triple = None
+    replace = None
+    for char in string:
+        if single != char:
+            single = char
+            double = None
+            continue
+        elif not double:
+            double = char
+            continue
+        elif double != char:
+            single = char
+            double = None
+            continue
+        else: # three letters in a row
+            replace = string.replace(char*3, char*2)
+            break
+    if replace:
+        string = check_for_triples(replace)
+    return string
 
 def format_name(name):
     if name in config.races:
@@ -25,10 +39,16 @@ def format_name(name):
         race_name = None
     if name in race_names_with_spaces:
         name = config.race_name_spaces_dict.get(name)
+
+    if not race_name:
+        # check for triple letters:
+        name = check_for_triples(name)
+
     name = string.capwords(name)
     if race_name:
         if race_name in config.human_races:
-            name = "Human (" + string.capwords(name) + ")"
+            if race_name != "human":
+                name = "Human (" + string.capwords(name) + ")"
     else:
         if "(" in name:
             name_split = name.split("(")

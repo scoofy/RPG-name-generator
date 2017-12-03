@@ -1,0 +1,12 @@
+text='''aree
+bee
+call
+cha
+dell
+lark
+ree
+rod
+sbee
+tell
+wick
+wine'''

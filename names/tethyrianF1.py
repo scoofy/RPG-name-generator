@@ -1,0 +1,13 @@
+text='''Ren
+zalf
+el
+dar
+hild
+ol
+yon
+sar
+syl
+thel
+bry
+bro
+nar'''

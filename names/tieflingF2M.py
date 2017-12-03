@@ -1,0 +1,16 @@
+text='''akas
+akos
+dos
+emon
+iron
+laios
+lech
+menos
+mos
+non
+rai
+rdai
+rthos
+ucis
+gel
+sysos'''

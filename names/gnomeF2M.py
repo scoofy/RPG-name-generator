@@ -1,0 +1,11 @@
+text='''bone
+brim
+wand
+tel
+bild
+boon
+ina
+mark
+veld
+vast
+bast'''

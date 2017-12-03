@@ -77,6 +77,7 @@ for sheet in book.sheets():
                 except:
                     pass
         for c in range(sheet.ncols):
+            prefix = "text='''"
             col_str = ""
             try:
                 potential_file_suffix = sheet.cell(rowx=text_row_start-1, colx=c).value
@@ -105,11 +106,13 @@ for sheet in book.sheets():
             if col_str:
                 if col_str.endswith("\n"):
                     col_str = col_str[:-1]
+                suffix = "'''"
+                col_str = prefix + col_str + suffix
                 str_file_path_list.pop(-1)
                 sheet_name = sheet.name
                 if sheet_name in sheet_names_replace_dict_keys:
                     sheet_name = sheet_names_replace_dict.get(sheet_name)
-                full_sheet_name = sheet_name.lower()+str(filename_suffix)+".txt"
+                full_sheet_name = sheet_name.lower()+str(filename_suffix)+".py"
                 str_file_path_list.append(full_sheet_name)
                 str_file_path = "/".join(str_file_path_list)
                 name_text_tuple = [str_file_path, col_str]
