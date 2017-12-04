@@ -150,13 +150,9 @@ def newtavern(race_name, similar_names = False):
     name = ""
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
-    print(race_tuple_list)
 
     human_race_name, human_male_name, human_female_name = gen_race_name(random.choice(config.human_races))
-    print(human_male_name)
-    print(human_female_name)
     first_name = random.choice([human_male_name, human_female_name]).strip().split(" ")[0]
-    print(first_name)
 
     first_name_probability = 0.2
     s_vs_and_probability = 0.8
@@ -188,7 +184,7 @@ def newtavern(race_name, similar_names = False):
         name += add_syllable(race_name, n2)
 
     else:
-        name += add_syllable(race_name, n3, predetermined=True)
+        name += add_syllable(race_name, n2, predetermined=True)
         name = "The " + name
 
     name += " "
