@@ -33,20 +33,26 @@ sheet_name_list = [
             "Turami",
             "Dwarf",
             "Taverns",
+            "New Taverns",
             "Tiefling",
+            "party",
 ]
 sheet_names_replace_dict = {"Taverns":"Tavern",
+                            "New Taverns": "Newtavern",
                             "Hill Giant":"Hillgiant",
-                            }
+}
 sheet_names_replace_dict_keys = sheet_names_replace_dict.keys()
 filename_suffixes = [
             "F1", "F2", "F2Male", "F2Female", "F3", "F4",
             "L1", "L2", "L3", "L4",
             "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T2/4",
+            "N1S", "N1And", "N2", "N3",
+            "P1", "N1", "A1", "C1",
 ]
 filename_dict = {
             "F2Male":"F2M",
             "F2Female":"F2F",
+            "N1And": "N1A",
             "T2/4":"T234"
 }
 filename_dict_keys = filename_dict.keys()
@@ -73,7 +79,7 @@ for the_file in os.listdir(remove_in_this_folder_path):
 book = xlrd.open_workbook(xls_path)
 text_row_start = None
 for sheet in book.sheets():
-    #pprint(sheet.name)
+    pprint(sheet.name)
     if sheet.name in sheet_name_list:
         for r in range(sheet.nrows):
             if r < 3:

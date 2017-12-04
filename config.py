@@ -3,7 +3,7 @@ from pprint import pprint
 
 import_template = "names.{}{}"
 
-non_gendered_races = ["tavern", "goblin", "orc", "hillgiant"]
+non_gendered_races = ["tavern", "newtavern", "goblin", "orc", "hillgiant"]
 human_races = ["human", "illuskan", "chondathan", "tethyrian", "damaran", "turami"]
 race_vars={ # [text,  probablity]
             "elf":      [["F1", 1.],
@@ -72,13 +72,19 @@ race_vars={ # [text,  probablity]
                         ["L3", 0.95]],
             "tavern":   [["F1", 1.],
                         ["F2", 1.]],
+            "newtavern":[# First name probability (0.2), found in create names
+                        ["N1S", 0.4],
+                        ["N1A", 0.75],
+                        ["N2", 0.2],
+                        ["N3", 1.]],
             "tiefling": [["F1", 1.],
                         ["F2M", 1.],
                         ["F2F", 1.],
                         ["L2", 1.]],
 }
 
-race_name_spaces_dict = {"hillgiant": "hill giant"}
+race_name_spaces_dict = {"hillgiant": "hill giant",
+                         "newtavern": "tavern (new)"}
 
 races = sorted(race_vars.keys())
 

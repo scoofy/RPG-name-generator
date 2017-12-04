@@ -6,13 +6,13 @@ import utilities as utils
 def decision(probability):
     return random.random() < probability
 
-def add_syllable(name_probability_tuple, predetermined = False):
+def add_syllable(race_name, race_tuple_list_var, predetermined = False):
     if not predetermined:
-        return_name = decision(name_probability_tuple[1])
+        return_name = decision(race_tuple_list_var[1])
     else:
         return_name = predetermined
     if return_name:
-        name_list = config.file_text_dict.get(name_probability_tuple[0])
+        name_list = config.file_text_dict.get(race_name + race_tuple_list_var[0])
         if name_list:
             name = random.choice(name_list)
             return name
@@ -21,37 +21,29 @@ def add_syllable(name_probability_tuple, predetermined = False):
     else:
         return ""
 
-def race_tuple_contents(race_tuple_var):
-    tuple_name = race_tuple_var[0]
-    tuple_probability = race_tuple_var[1]
-    return tuple_name, tuple_probability
-
 def standard_gendered(race_name, similar_names = False):
     male_name = ""
     female_name = ""
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
-        if first_char != tuple_name[0]:
-            first_char = tuple_name[0]
+        if first_char != tuple_var[0][0]:
+            first_char = tuple_var[0][0]
             male_name += " "
             female_name += " "
-        if tuple_name and not tuple_name[-1].isdigit():
-            if tuple_name[-1] == "M":
-                male_name += add_syllable(name_probability_tuple)
-            elif tuple_name[-1] == "F":
-                female_name += add_syllable(name_probability_tuple)
+        if tuple_var[0] and not tuple_var[0][-1].isdigit():
+            if tuple_var[0][-1] == "M":
+                male_name += add_syllable(race_name, tuple_var)
+            elif tuple_var[0][-1] == "F":
+                female_name += add_syllable(race_name, tuple_var)
         else:
             if similar_names: # gen similar names
-                syllable = add_syllable(name_probability_tuple)
+                syllable = add_syllable(race_name, tuple_var)
                 male_name += syllable
                 female_name += syllable
             else: # or different names
-                male_name += add_syllable(name_probability_tuple)
-                female_name += add_syllable(name_probability_tuple)
+                male_name += add_syllable(race_name, tuple_var)
+                female_name += add_syllable(race_name, tuple_var)
     return [race_name, male_name, female_name]
 
 def standard_nongendered(race_name, similar_names = False):
@@ -59,13 +51,10 @@ def standard_nongendered(race_name, similar_names = False):
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
-        if first_char != tuple_name[0]:
-            first_char = tuple_name[0]
+        if first_char != tuple_var[0][0]:
+            first_char = tuple_var[0][0]
             name += " "
-        name += add_syllable(name_probability_tuple)
+        name += add_syllable(race_name, tuple_var)
     return [race_name, name, name]
 
 def standard_single_name(race_name, similar_names = False):
@@ -73,10 +62,8 @@ def standard_single_name(race_name, similar_names = False):
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
-        name += add_syllable(name_probability_tuple)
+
+        name += add_syllable(race_name, tuple_var)
     return [race_name, name, name]
 
 def tiefling(race_name, similar_names = False):
@@ -127,22 +114,19 @@ def orc(race_name, similar_names = False):
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
-        add_next_syllable = decision(tuple_probability)
-        if first_char != tuple_name[0]:
-            first_char = tuple_name[0]
+        add_next_syllable = decision(tuple_var[1])
+        if first_char != tuple_var[0][0]:
+            first_char = tuple_var[0][0]
             name += " "
-        if leading_orc_L2_space and tuple_name == "L2":
+        if leading_orc_L2_space and tuple_var[0] == "L2":
             if add_next_syllable:
                 name += " "
                 leading_orc_L2_space = False
                 trailing_orc_L2_space = True
-        if trailing_orc_L2_space and tuple_name == "L3":
+        if trailing_orc_L2_space and tuple_var[0] == "L3":
             name += " "
             trailing_orc_L2_space = False
-        name += add_syllable(name_probability_tuple, predetermined=add_next_syllable)
+        name += add_syllable(race_name, tuple_var, predetermined=add_next_syllable)
     return [race_name, name, name]
 
 
@@ -153,16 +137,64 @@ def halfling(race_name, similar_names = False):
     return (standard_gendered(race_name, similar_names))
 
 def tavern(race_name, similar_names = False):
-    race_name, name, ignore = standard_single_name(race_name, similar_names)
     name = "the"
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
+    print(race_tuple_list)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
         name += " "
-        name += add_syllable(name_probability_tuple)
+        name += add_syllable(race_name, tuple_var)
+    return [race_name, name, name]
+
+def newtavern(race_name, similar_names = False):
+    name = ""
+    first_char = None
+    race_tuple_list = utils.return_race_tuple_list(race_name)
+    print(race_tuple_list)
+
+    human_race_name, human_male_name, human_female_name = gen_race_name(random.choice(config.human_races))
+    print(human_male_name)
+    print(human_female_name)
+    first_name = random.choice([human_male_name, human_female_name]).strip().split(" ")[0]
+    print(first_name)
+
+    first_name_probability = 0.2
+    s_vs_and_probability = 0.8
+
+    f1 = [first_name, first_name_probability]
+    name1s_likely = race_tuple_list[0]
+    name1and_likely = race_tuple_list[1]
+    n2 =  race_tuple_list[2]
+    n3 =  race_tuple_list[3]
+
+    if decision(f1[1]):
+        name += f1[0] + "'s"
+        name += " "
+        name += add_syllable(race_name, n2)
+    elif decision(name1s_likely[1]):
+
+        name += add_syllable(race_name, name1s_likely, predetermined=True)
+        if decision(s_vs_and_probability):
+            name = "The " + name + "'s "
+        else:
+            name = "The " + name + " and "
+        name += add_syllable(race_name, n2)
+    elif decision(name1and_likely[1]):
+        name += add_syllable(race_name, name1and_likely, predetermined=True)
+        if decision(s_vs_and_probability):
+            name = "The " + name + " and "
+        else:
+            name = "The " + name + "'s "
+        name += add_syllable(race_name, n2)
+
+    else:
+        name += add_syllable(race_name, n3, predetermined=True)
+        name = "The " + name
+
+    name += " "
+    name += add_syllable(race_name, n3)
+    print(name)
+
     return [race_name, name, name]
 
 def elf(race_name, similar_names = False):
@@ -171,11 +203,8 @@ def elf(race_name, similar_names = False):
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
     for tuple_var in race_tuple_list:
-        tuple_name, tuple_probability = race_tuple_contents(tuple_var)
-        file_name_dict_var = race_name + tuple_name
-        name_probability_tuple = [file_name_dict_var, tuple_probability]
-        if first_char != tuple_name[0]:
-            first_char = tuple_name[0]
+        if first_char != tuple_var[0][0]:
+            first_char = tuple_var[0][0]
             if first_char == "T":
                 male_name += ")"
                 female_name += ")"
@@ -184,19 +213,19 @@ def elf(race_name, similar_names = False):
             if first_char == "L":
                 male_name += "("
                 female_name += "("
-        if tuple_name and not tuple_name[-1].isdigit():
-            if tuple_name[-1] == "M":
-                male_name += add_syllable(name_probability_tuple)
-            elif tuple_name[-1] == "F":
-                female_name += add_syllable(name_probability_tuple)
+        if tuple_var[0] and not tuple_var[0][-1].isdigit():
+            if tuple_var[0][-1] == "M":
+                male_name += add_syllable(race_name, tuple_var)
+            elif tuple_var[0][-1] == "F":
+                female_name += add_syllable(race_name, tuple_var)
         else:
             if similar_names: # gen similar names
-                syllable = add_syllable(name_probability_tuple)
+                syllable = add_syllable(race_name, tuple_var)
                 male_name += syllable
                 female_name += syllable
             else: # or different names
-                male_name += add_syllable(name_probability_tuple)
-                female_name += add_syllable(name_probability_tuple)
+                male_name += add_syllable(race_name, tuple_var)
+                female_name += add_syllable(race_name, tuple_var)
     return [race_name, male_name, female_name]
 
 
@@ -217,6 +246,7 @@ race_functions = {
     "turami": human,
     "dwarf": dwarf,
     "tiefling": tiefling,
+    "newtavern": newtavern,
 }
 
 def gen_race_name(race_name, similar_names = False):

@@ -1,6 +1,6 @@
 text='''ale and
 axe and
-Banshee's
+banshee's
 Blessed
 Blunt
 Blushing
@@ -9,8 +9,8 @@ Changed
 Closest
 Cloven
 Copper
-Count's
-Countess's
+count's
+countess's
 Cracked
 Crass
 critical
@@ -19,17 +19,17 @@ Crusty
 Cursed
 damp
 Dancing
-Dog's
+dog's
 Drowning
 Drunk
 Drunken
 Dwarven
-Earl's
+earl's
 Eight
 Eldest
 electrum
 Eleven
-Elf's
+elf's
 Elven
 Empty
 Fallen
@@ -43,28 +43,28 @@ Galloping
 Gasping
 Golden
 Good
-Gorgon's
+gorgon's
 Grumpy
 hanged
-Harlot's
+harlot's
 Horned
-Hound's
+hound's
 invisible
 Jealous
 Jumping
-King's
+king's
 Last
 Laughing
 Leomund's tiny
 Lonely
-Lord's
+lord's
 Lovely
 lucky
-Mammoth's
-Mermaid's
+mammoth's
+mermaid's
 Middle
 Missing
-Monk's
+monk's
 Nine
 One
 orc's
@@ -72,9 +72,9 @@ petrified
 pig's
 poisoned
 portable
-Preacher's
-Princess's
-Queen's
+preacher's
+princess's
+queen's
 Red
 Rotten
 Ruffian's
@@ -91,7 +91,7 @@ spinning
 Sleepy
 snoring
 Stone
-Strumpet's
+strumpet's
 teleported
 Ten
 Thirteen
@@ -176,7 +176,7 @@ child and
 world and
 school and
 state and
-family and
+family
 student and
 five and
 country and
@@ -279,4 +279,11 @@ stink and
 wretched
 charming
 pickled
-Concupiscent'''
+Concupiscent
+royal
+endless
+shamed
+disheveled
+nameless
+telltale
+unfathomable'''
