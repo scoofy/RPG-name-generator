@@ -128,4 +128,14 @@ teach
 loaf
 tattle
 crackle
-stink'''
+stink
+two
+three
+six
+seven
+eight
+nine
+Ten
+Thirteen
+Eleven
+Twelve'''
