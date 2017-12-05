@@ -13,12 +13,12 @@ def grabNames():
 
     #filePath = 'C:/Users/David/AppData/Local/Programs/Python/Python36/RPG-name-generator-master/names/'
     filePath = 'names/'
-    fileNames = os.listdir(filePath) #get a list of all the files in the names directory
-    fileNames.remove('__init__.py')
+    fileList = os.listdir(filePath) #get a list of all the files in the names directory
+    fileList.remove('__init__.py')
 
-    for nameGroup in fileNames: 
-        nameSplit = re.split('([A-Z].*)\.',nameGroup) #break apart entity name(orc, human, tavern, etc.) from element type (L1, etc.)
-        with open(filePath + nameGroup) as myfile:
+    for nameFile in fileList: 
+        nameSplit = re.split('([A-Z].*)\.', nameFile) #break apart entity name(orc, human, tavern, etc.) from element type (L1, etc.)
+        with open(filePath +  nameFile) as myfile:
             fileText = myfile.read() #read the content of the current file
             
             while True:
