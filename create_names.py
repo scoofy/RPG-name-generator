@@ -246,17 +246,17 @@ def party(race_name, similar_names = False):
 
     tuple_list = [p1, p1a, n1, n1a, n2, n2a, c1]
     if decision(p1[1]):
-        p1a_text = add_syllable(race_name, p1a)
-        p1_text = add_syllable(race_name, p1, predetermined = True) + "'s"
+        p1a_text = add_syllable(race_name, p1a, similar_names = similar_names)
+        p1_text = add_syllable(race_name, p1, predetermined = True, similar_names = similar_names) + "'s"
     if decision(n1[1]):
-        n1a_text = add_syllable(race_name, n1a)
-        n1_text = add_syllable(race_name, n1, predetermined = True)
+        n1a_text = add_syllable(race_name, n1a, similar_names = similar_names)
+        n1_text = add_syllable(race_name, n1, predetermined = True, similar_names = similar_names)
     else:
-        n1a_text = add_syllable(race_name, n1a, predetermined = True)
+        n1a_text = add_syllable(race_name, n1a, predetermined = True, similar_names = similar_names)
     if decision(n2[1]):
-        n2a_text = add_syllable(race_name, n2a)
-        n2_text = add_syllable(race_name, n2, predetermined = True)
-    c1_text = add_syllable(race_name, c1)
+        n2a_text = add_syllable(race_name, n2a, similar_names = similar_names)
+        n2_text = add_syllable(race_name, n2, predetermined = True, similar_names = similar_names)
+    c1_text = add_syllable(race_name, c1, similar_names = similar_names)
     text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
     if n2_text and not p1_text:
         if n1_text:
@@ -280,8 +280,13 @@ def party(race_name, similar_names = False):
         if word:
             name += word + " "
     name = name.strip()
+    if similar_names:
+        race_name = "party_alliteration"
     return [race_name, name, name]
 
+def party_alliteration(race_name, similar_names = False):
+    similar_names = random.choice(list(string.ascii_lowercase))
+    return party("party", similar_names)
 
 def elf(race_name, similar_names = False):
     male_name = ""
