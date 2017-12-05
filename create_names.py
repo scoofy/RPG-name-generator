@@ -223,17 +223,16 @@ def party(race_name, similar_names = False):
 
     tuple_list = [p1, p1a, n1, n1a, n2, n2a, c1]
     if decision(p1[1]):
+        p1a_text = add_syllable(race_name, p1a)
         p1_text = add_syllable(race_name, p1, predetermined = True) + "'s"
-        if decision(p1a[1]):
-            p1a_text = add_syllable(race_name, p1a, predetermined = True)
     if decision(n1[1]):
-        n1_text = add_syllable(race_name, n1, predetermined = True)
         n1a_text = add_syllable(race_name, n1a)
+        n1_text = add_syllable(race_name, n1, predetermined = True)
     else:
         n1a_text = add_syllable(race_name, n1a, predetermined = True)
-    n2_text = add_syllable(race_name, n2)
-    if n2_text:
+    if decision(n2[1]):
         n2a_text = add_syllable(race_name, n2a)
+        n2_text = add_syllable(race_name, n2, predetermined = True)
     c1_text = add_syllable(race_name, c1)
     text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
     if n2_text and not p1_text:
