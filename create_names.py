@@ -167,24 +167,36 @@ def newtavern(race_name, similar_names = False):
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
 
-    human_race_name, human_male_name, human_female_name = gen_race_name(random.choice(config.human_races))
-    first_name = random.choice([human_male_name, human_female_name]).strip().split(" ")[0]
-
     first_name_probability = 0.2
     s_vs_and_probability = 0.8
+    first_name = None
+    if decision(first_name_probability):
+        human_race_name, human_male_name, human_female_name = gen_race_name(random.choice(config.human_races))
+        if similar_names:
+            for i in range(10000):
+                human_male_name = human_male_name.strip()
+                human_female_name = human_female_name.strip()
+                if human_male_name.startswith(similar_names) or human_female_name.startswith(similar_names):
+                    alliterative_name = random.choice([name for name in [human_male_name, human_female_name] if name.startswith(similar_names)])
+                    human_male_name = alliterative_name
+                    human_female_name = alliterative_name
+                    break
+                else:
+                    human_race_name, human_male_name, human_female_name = gen_race_name(random.choice(config.human_races))
+        first_name = random.choice([human_male_name, human_female_name]).strip().split(" ")[0]
 
-    f1 = [first_name, first_name_probability]
+
+
     name1s_likely = race_tuple_list[0]
     name1and_likely = race_tuple_list[1]
     n2 =  race_tuple_list[2]
     n3 =  race_tuple_list[3]
 
-    if decision(f1[1]):
-        name += f1[0] + "'s"
+    if first_name:
+        name += first_name + "'s"
         name += " "
         name += add_syllable(race_name, n2, similar_names = similar_names)
     elif decision(name1s_likely[1]):
-
         name += add_syllable(race_name, name1s_likely, predetermined=True, similar_names = similar_names)
         if decision(s_vs_and_probability):
             name = "The " + name + "'s "
@@ -212,8 +224,6 @@ def newtavern(race_name, similar_names = False):
 
 def newtavern_alliteration(race_name, similar_names = False):
     similar_names = random.choice(list(string.ascii_lowercase))
-    print("newtavern_alliteration")
-    print(similar_names)
     return newtavern("newtavern", similar_names)
 
 def party(race_name, similar_names = False):
