@@ -3,7 +3,7 @@ import os, re
 def grabNames():
     #load all name data from the names folder into a single dictionary of dictionaries
     #top level = race/entity (tavern, orc, human, party, etc)
-    #second level =name element (L1, F1F, A1 etc
+    #second level =name element (L1, F1F, A1 etc)
     #assumptions:
     #.    All files in the names fokder contain name data
     #.    File names are in the format [entity][ELEMENT CODE]
@@ -17,8 +17,8 @@ def grabNames():
     fileNames.remove('__init__.py')
 
     for nameGroup in fileNames: 
-        nameSplit = re.split('([A-Z].*)\.',nameGroup) #Identify the name family (orc, human, tavern, etc.)
-        with open(filePath + nameGroup) as myfile#:
+        nameSplit = re.split('([A-Z].*)\.',nameGroup) #break apart entity name(orc, human, tavern, etc.) from element type (L1, etc.)
+        with open(filePath + nameGroup) as myfile:
             fileText = myfile.read()
             
             while True:
