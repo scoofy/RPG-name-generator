@@ -236,7 +236,7 @@ def party(race_name, similar_names = False):
         n2a_text = add_syllable(race_name, n2a)
     c1_text = add_syllable(race_name, c1)
     text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
-    if not p1_text and not n2_text:
+    if n2_text and not p1_text:
         if n1_text:
             n1_text += "'s"
     text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
