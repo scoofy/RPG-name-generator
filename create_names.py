@@ -1,4 +1,4 @@
-import string, random
+import string, random, inflection, sys
 from pprint import pprint
 import config
 import utilities as utils
@@ -20,6 +20,16 @@ def add_syllable(race_name, race_tuple_list_var, predetermined = False):
             return ""
     else:
         return ""
+
+def gen_race_name(race_name, similar_names = False):
+    triple = None
+    race_name_function = race_functions.get(race_name)
+    if race_name_function:
+        triple = race_functions.get(race_name)(race_name, similar_names)
+    if triple: #[race_name, male_name, female_name]
+        return triple
+
+#-----------------------------------------------------------------------#
 
 def standard_gendered(race_name, similar_names = False):
     male_name = ""
@@ -65,6 +75,8 @@ def standard_single_name(race_name, similar_names = False):
 
         name += add_syllable(race_name, tuple_var)
     return [race_name, name, name]
+
+#-----------------------------------------------------------------------#
 
 def tiefling(race_name, similar_names = False):
     race_name, male_name, female_name = standard_gendered(race_name, similar_names)
@@ -140,7 +152,6 @@ def tavern(race_name, similar_names = False):
     name = "the"
     first_char = None
     race_tuple_list = utils.return_race_tuple_list(race_name)
-    print(race_tuple_list)
     for tuple_var in race_tuple_list:
         name += " "
         name += add_syllable(race_name, tuple_var)
@@ -189,9 +200,66 @@ def newtavern(race_name, similar_names = False):
 
     name += " "
     name += add_syllable(race_name, n3)
-    print(name)
 
     return [race_name, name, name]
+
+def party(race_name, similar_names = False):
+    race_tuple_list = utils.return_race_tuple_list(race_name)
+    p1 = race_tuple_list[0] # subject (possessive)
+    p1_text = ""
+    p1a = race_tuple_list[1] # subject's-adj
+    p1a_text = ""
+    n1 = race_tuple_list[2] # noun1
+    n1_text = ""
+    n1a = race_tuple_list[3] # n1's-adj
+    n1a_text = ""
+    n2 = race_tuple_list[4] # noun2
+    n2_text = ""
+    n2a = race_tuple_list[5] # n2-adj
+    n2a_text = ""
+    c1 = race_tuple_list[6] # collective term else plural
+    c1_text = ""
+    connector = ""
+
+    tuple_list = [p1, p1a, n1, n1a, n2, n2a, c1]
+    if decision(p1[1]):
+        p1_text = add_syllable(race_name, p1, predetermined = True) + "'s"
+        if decision(p1a[1]):
+            p1a_text = add_syllable(race_name, p1a, predetermined = True)
+    if decision(n1[1]):
+        n1_text = add_syllable(race_name, n1, predetermined = True)
+        n1a_text = add_syllable(race_name, n1a)
+    else:
+        n1a_text = add_syllable(race_name, n1a, predetermined = True)
+    n2_text = add_syllable(race_name, n2)
+    if n2_text:
+        n2a_text = add_syllable(race_name, n2a)
+    c1_text = add_syllable(race_name, c1)
+    text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
+    if not p1_text and not n2_text:
+        if n1_text:
+            n1_text += "'s"
+    text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
+    passed_list = [x for x in text_list if x]
+    if len(passed_list) > 5:
+        connector = "and"
+    new_plural = None
+    text_list = [p1a_text, p1_text, n1a_text, n1_text, connector, n2a_text, n2_text, c1_text]
+    if not c1_text:
+        for text in reversed(text_list):
+            if text:
+                new_plural = inflection.pluralize(text)
+                break
+    if new_plural:
+        last_index = text_list.index(passed_list[-1])
+        text_list[last_index] = new_plural
+    name = "The "
+    for word in text_list:
+        if word:
+            name += word + " "
+    name = name.strip()
+    return [race_name, name, name]
+
 
 def elf(race_name, similar_names = False):
     male_name = ""
@@ -224,35 +292,21 @@ def elf(race_name, similar_names = False):
                 female_name += add_syllable(race_name, tuple_var)
     return [race_name, male_name, female_name]
 
+#-----------------------------------------------------------------------#
 
-
-race_functions = {
-    "tavern": tavern,
-    "elf": elf,
-    "halfling": halfling,
-    "hillgiant": hillgiant,
-    "orc": orc,
-    "goblin": goblin,
-    "gnome": gnome,
-    "human": human,
-    "illuskan": human,
-    "chondathan": human,
-    "tethyrian": human,
-    "damaran": human,
-    "turami": human,
-    "dwarf": dwarf,
-    "tiefling": tiefling,
-    "newtavern": newtavern,
-}
-
-def gen_race_name(race_name, similar_names = False):
-    triple = None
-    race_name_function = race_functions.get(race_name)
-    if race_name_function:
-        triple = race_functions.get(race_name)(race_name, similar_names)
-    if triple: #[race_name, male_name, female_name]
-        return triple
-
+race_functions = {}
+for race_name in config.races:
+    if race_name in config.human_races:
+        function_name = "human"
+    else:
+        function_name = race_name
+    possibles = globals().copy()
+    possibles.update(locals())
+    race_name_function = possibles.get(function_name)
+    if not race_name_function:
+        print(race_name)
+        raise NotImplementedError("Method {} not implemented".format(race_name_function))
+    race_functions[race_name] = race_name_function
 
 
 

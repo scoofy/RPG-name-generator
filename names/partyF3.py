@@ -1,3 +1,0 @@
-text='''way
-child
-crabs'''

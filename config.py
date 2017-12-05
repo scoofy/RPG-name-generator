@@ -3,7 +3,7 @@ from pprint import pprint
 
 import_template = "names.{}{}"
 
-non_gendered_races = ["tavern", "newtavern", "goblin", "orc", "hillgiant"]
+non_gendered_races = ["goblin", "orc", "hillgiant", "tavern", "newtavern", "party"]
 human_races = ["human", "illuskan", "chondathan", "tethyrian", "damaran", "turami"]
 race_vars={ # [text,  probablity]
             "elf":      [["F1", 1.],
@@ -70,6 +70,10 @@ race_vars={ # [text,  probablity]
                         ["F2F", 0.95],
                         ["L2", 1.],
                         ["L3", 0.95]],
+            "tiefling": [["F1", 1.],
+                        ["F2M", 1.],
+                        ["F2F", 1.],
+                        ["L2", 1.]],
             "tavern":   [["F1", 1.],
                         ["F2", 1.]],
             "newtavern":[# First name probability (0.2), found in create names
@@ -77,10 +81,13 @@ race_vars={ # [text,  probablity]
                         ["N1A", 0.75],
                         ["N2", 0.2],
                         ["N3", 1.]],
-            "tiefling": [["F1", 1.],
-                        ["F2M", 1.],
-                        ["F2F", 1.],
-                        ["L2", 1.]],
+            "party":    [["P1", 0.45],
+                        ["A1", 0.55],
+                        ["N1", 0.35],
+                        ["A1", 0.35],
+                        ["N1", 0.35],
+                        ["A1", 0.35],
+                        ["C1", 0.45],],
 }
 
 race_name_spaces_dict = {"hillgiant": "hill giant",

@@ -120,6 +120,7 @@ for sheet in book.sheets():
                         col_str += text + "\n"
                 except:
                     '''print(text)'''
+                    pass
             if col_str.replace(" ","").replace("\n",""):
                 if col_str.endswith("\n"):
                     col_str = col_str[:-1]
