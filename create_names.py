@@ -6,7 +6,7 @@ import utilities as utils
 def decision(probability):
     return random.random() < probability
 
-def add_syllable(race_name, race_tuple_list_var, predetermined = False):
+def add_syllable(race_name, race_tuple_list_var, predetermined = False, similar_names = None):
     if not predetermined:
         return_name = decision(race_tuple_list_var[1])
     else:
@@ -14,6 +14,11 @@ def add_syllable(race_name, race_tuple_list_var, predetermined = False):
     if return_name:
         name_list = config.file_text_dict.get(race_name + race_tuple_list_var[0])
         if name_list:
+            if similar_names:
+                alliteration_letter = similar_names
+                letter_list = [x for x in name_list if x[0] == alliteration_letter]
+                if letter_list:
+                    name_list = letter_list
             name = random.choice(name_list)
             return name
         else:
@@ -177,31 +182,39 @@ def newtavern(race_name, similar_names = False):
     if decision(f1[1]):
         name += f1[0] + "'s"
         name += " "
-        name += add_syllable(race_name, n2)
+        name += add_syllable(race_name, n2, similar_names = similar_names)
     elif decision(name1s_likely[1]):
 
-        name += add_syllable(race_name, name1s_likely, predetermined=True)
+        name += add_syllable(race_name, name1s_likely, predetermined=True, similar_names = similar_names)
         if decision(s_vs_and_probability):
             name = "The " + name + "'s "
         else:
             name = "The " + name + " and "
-        name += add_syllable(race_name, n2)
+        name += add_syllable(race_name, n2, similar_names = similar_names)
     elif decision(name1and_likely[1]):
-        name += add_syllable(race_name, name1and_likely, predetermined=True)
+        name += add_syllable(race_name, name1and_likely, predetermined=True, similar_names = similar_names)
         if decision(s_vs_and_probability):
             name = "The " + name + " and "
         else:
             name = "The " + name + "'s "
-        name += add_syllable(race_name, n2)
+        name += add_syllable(race_name, n2, similar_names = similar_names)
 
     else:
-        name += add_syllable(race_name, n2, predetermined=True)
+        name += add_syllable(race_name, n2, predetermined=True, similar_names = similar_names)
         name = "The " + name
 
     name += " "
-    name += add_syllable(race_name, n3)
+    name += add_syllable(race_name, n3, similar_names = similar_names)
 
+    if similar_names:
+        race_name = "newtavern_alliteration"
     return [race_name, name, name]
+
+def newtavern_alliteration(race_name, similar_names = False):
+    similar_names = random.choice(list(string.ascii_lowercase))
+    print("newtavern_alliteration")
+    print(similar_names)
+    return newtavern("newtavern", similar_names)
 
 def party(race_name, similar_names = False):
     race_tuple_list = utils.return_race_tuple_list(race_name)
